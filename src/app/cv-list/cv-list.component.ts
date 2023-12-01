@@ -1,10 +1,11 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 interface ICV_ViewModel {
-  id: number|null;
+  id: number | null;
   name: string;
   fullname: string;
   cityname: string;
@@ -26,18 +27,23 @@ const CV_viewModel: ICV_ViewModel = {
   templateUrl: './cv-list.component.html'
 })
 export class CvListComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator?: MatPaginator;
+
   cvForm: FormGroup;
   isEditCV: boolean = false;
   modalRef!: BsModalRef;
-
   data: ICV_ViewModel[] = [];
   displayedPlaceholders: string[] = Object.values(CV_viewModel);
   displayedColumns: string[] = Object.keys(CV_viewModel);
-
+  dataSource = new MatTableDataSource<ICV_ViewModel>([]);
+  currentPage: number = 0;
+  pageSize: number = 3;
+  pageSizeOptions: number[] = [];
+  totalRows = 0;
   responseData = {
     items: [
       {
-        id: 5,
+        id: 1,
         name: 'Ali',
         personalInformationId: 1,
         experienceInformationId: 0,
@@ -58,13 +64,59 @@ export class CvListComponent implements OnInit {
             cvId: 5
           }
         ]
-      }
+      },
+      {
+        id: 2,
+        name: 'Ali',
+        personalInformationId: 1,
+        experienceInformationId: 0,
+        personalInformation: {
+          id: 1,
+          fullName: 'Jaber',
+          cityName: 'Fayoum',
+          email: 'alimjbr1@gmail.com',
+          mobileNumber: '01062701022',
+          cvId: 1
+        },
+        experienceInformation: [
+          {
+            id: 2,
+            companyName: 'ElevateTCS',
+            city: 'Cairo',
+            companyField: 'Telecom',
+            cvId: 5
+          }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Ali',
+        personalInformationId: 1,
+        experienceInformationId: 0,
+        personalInformation: {
+          id: 1,
+          fullName: 'Jaber',
+          cityName: 'Fayoum',
+          email: 'alimjbr1@gmail.com',
+          mobileNumber: '01062701022',
+          cvId: 1
+        },
+        experienceInformation: [
+          {
+            id: 2,
+            companyName: 'ElevateTCS',
+            city: 'Cairo',
+            companyField: 'Telecom',
+            cvId: 5
+          }
+        ]
+      },
     ],
     metaData: {
       pageCount: 1,
-      totalItemCount: 1,
-      pageNumber: 1,
-      pageSize: 10,
+      totalItemCount: 5,
+      pageNumber: 0,
+      pageSize: 3,
       hasPreviousPage: false,
       hasNextPage: false,
       isFirstPage: true,
@@ -73,10 +125,6 @@ export class CvListComponent implements OnInit {
       lastItemOnPage: 1
     }
   };
-
-  dummyData: any = [];
-
-  dataSource = new MatTableDataSource<ICV_ViewModel>([]);
 
   constructor(
     private fb: FormBuilder,
@@ -99,9 +147,10 @@ export class CvListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.displayedColumns.push('actions');
-
     this.getData();
+
+    this.displayedColumns.push('actions');
+    this.dataSource.paginator = this.paginator as MatPaginator;
   }
 
   formatData(data: any) {
@@ -118,7 +167,29 @@ export class CvListComponent implements OnInit {
   }
 
   getData() {
-    this.dataSource = this.formatData(this.responseData.items)
+    this.totalRows = this.responseData.metaData.totalItemCount;
+
+    if (this.paginator) {
+      this.paginator.pageIndex = this.currentPage;
+      this.paginator.length = this.totalRows;
+    }
+
+    const offset = this.currentPage * this.pageSize;
+    const limit = this.pageSize;
+
+    console.log('offset:' + offset);
+    console.log('limit' + limit);
+
+    
+    this.dataSource = new MatTableDataSource(
+      this.formatData(this.responseData.items)
+    );
+  }
+
+  pageChanged(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.getData();
   }
 
   addCV() {

@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     MatTableModule,
     MatInputModule,
     MatSelectModule,
+    MatPaginatorModule,
     FormsModule,
     ReactiveFormsModule,
   ],

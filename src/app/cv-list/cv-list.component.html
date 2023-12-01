@@ -51,11 +51,16 @@
     </tr>
   </table>
 
-  <!-- <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
-            [pageSizeOptions]="pageSizeOptions"
-             (page)="pageChanged($event)"
-              showFirstLastButtons>
-            </mat-paginator>    -->
+  <mat-paginator
+    #paginator
+    [length]="totalRows"
+    [pageIndex]="currentPage"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="pageChanged($event)"
+    showFirstLastButtons
+  >
+  </mat-paginator>
 </div>
 
 <!--Add / Edit CV popup-->
@@ -76,19 +81,6 @@
   <div class="modal-body">
     <div class="example-form">
       <form novalidate [formGroup]="cvForm" class="loop-form">
-        <!-- <div class="d-flex">
-                  <mat-form-field class="w-100" appearance="fill">
-                      <mat-label>Field</mat-label>
-                      <mat-select
-                          formControlName="DeviceTypeId"
-                      >
-                          <mat-option *ngFor="let type of types" [value]="type.id">
-                              {{ type.FullName }}
-                          </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-              </div> -->
-
 
         <mat-form-field class="w-100">
           <mat-label>Name</mat-label>
