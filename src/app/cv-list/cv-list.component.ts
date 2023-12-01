@@ -7,7 +7,7 @@ interface ICV_ViewModel {
   id: number|null;
   name: string;
   fullname: string;
-  cityName: string;
+  cityname: string;
   email: string;
   mobilenumber: string;
 }
@@ -16,7 +16,7 @@ const CV_viewModel: ICV_ViewModel = {
   id: null,
   name: 'Name',
   fullname: 'Full Name',
-  cityName: 'City Name',
+  cityname: 'City Name',
   email: 'Email',
   mobilenumber: 'string'
 };
