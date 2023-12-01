@@ -10,7 +10,6 @@
 <!--Page Content-->
 <div class="page-content">
   <table class="w-100 grid table-border" mat-table [dataSource]="dataSource">
-
     <div *ngFor="let item of displayedColumns; index as i">
       <ng-container matColumnDef="{{ item }}" *ngIf="item !== 'actions'">
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
@@ -50,7 +49,6 @@
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="9999">No data to display</td>
     </tr>
-
   </table>
 
   <!-- <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
@@ -91,6 +89,7 @@
                   </mat-form-field>
               </div> -->
 
+
         <mat-form-field class="w-100">
           <mat-label>Name</mat-label>
           <input
@@ -101,9 +100,50 @@
           />
         </mat-form-field>
 
+        <mat-form-field class="w-100">
+          <mat-label>Fullname</mat-label>
+          <input
+            formControlName="fullname"
+            matInput
+            placeholder="Enter Fullname"
+            value=""
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <mat-label>City Name</mat-label>
+          <input
+            formControlName="cityname"
+            matInput
+            placeholder="Enter Cityname"
+            value=""
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <mat-label>Email</mat-label>
+          <input
+            formControlName="email"
+            matInput
+            placeholder="Enter Email"
+            value=""
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <mat-label>Mobile Number</mat-label>
+          <input
+            formControlName="mobilenumber"
+            matInput
+            placeholder="Enter Mobile Number"
+            value=""
+          />
+        </mat-form-field>
+
         <br />
         <div class="w-100 text-center">
           <button
+            [disabled]="!cvForm.valid"
             class="btn btn-primary w-50"
             (click)="cvForm.valid && (isEditCV ? editCV() : addCV())"
           >
