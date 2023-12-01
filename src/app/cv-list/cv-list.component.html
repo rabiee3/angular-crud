@@ -1,5 +1,11 @@
 <!--Page Title-->
-<h3 class="bg-light border-bottom px-2 py-1">CVs</h3>
+<h3 class="bg-light border-bottom px-2 py-1 d-flex">
+  <span>CVs</span>
+  <div class="btn btn-success ms-auto" (click)="addCVPopup(cvPopupTemplate)">
+    <span class="fa fa-plus"></span>
+    Add
+  </div>
+</h3>
 
 <!--Page Content-->
 <div class="page-content">
@@ -22,13 +28,10 @@
       </th>
       <td mat-cell *matCellDef="let row">
         <ng-container>
-
-          <div class="btn btn-success mx-1" (click)="addCV(row)">
-            <span class="fa fa-plus"></span>
-            Add
-          </div>
-
-          <div class="btn btn-primary mx-1" (click)="editCV(row)">
+          <div
+            class="btn btn-primary mx-1"
+            (click)="editCVPopup(row, cvPopupTemplate)"
+          >
             <span class="fa fa-edit"></span>
             Edit
           </div>
@@ -56,3 +59,58 @@
               showFirstLastButtons>
             </mat-paginator>    -->
 </div>
+
+<!--Add / Edit CV popup-->
+<ng-template #cvPopupTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+      {{ isEditCV ? "Edit" : "Add" }}
+    </h4>
+    <button
+      type="button"
+      class="btn btn-light py-1 border"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="example-form">
+      <form novalidate [formGroup]="cvForm" class="loop-form">
+        <!-- <div class="d-flex">
+                  <mat-form-field class="w-100" appearance="fill">
+                      <mat-label>Field</mat-label>
+                      <mat-select
+                          formControlName="DeviceTypeId"
+                      >
+                          <mat-option *ngFor="let type of types" [value]="type.id">
+                              {{ type.FullName }}
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </div> -->
+
+        <mat-form-field class="w-100">
+          <mat-label>Name</mat-label>
+          <input
+            formControlName="name"
+            matInput
+            placeholder="Enter Name"
+            value=""
+          />
+        </mat-form-field>
+
+        <br />
+        <div class="w-100 text-center">
+          <button
+            class="btn btn-primary w-50"
+            (click)="cvForm.valid && (isEditCV ? editCV() : addCV())"
+          >
+            {{ isEditCV ? "Edit" : "Add" }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
